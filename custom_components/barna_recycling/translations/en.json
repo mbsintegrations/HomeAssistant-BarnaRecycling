@@ -1,0 +1,43 @@
+{
+  "title": "Barna Recycling",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Barna Recycling",
+        "description": "Enter your customer portal account number and PIN. Only read-only pages available without OTP are accessed. Credentials remain in Home Assistant.",
+        "data": {
+          "username": "Account number",
+          "password": "PIN"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Connect to Barna Recycling",
+        "description": "Enter your customer portal account number and PIN. Only read-only pages available without OTP are accessed. Credentials remain in Home Assistant.",
+        "data": {
+          "username": "Account number",
+          "password": "PIN"
+        }
+      },
+      "reconfigure": {
+        "title": "Connect to Barna Recycling",
+        "description": "Enter your customer portal account number and PIN. Only read-only pages available without OTP are accessed. Credentials remain in Home Assistant.",
+        "data": {
+          "username": "Account number",
+          "password": "PIN"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "The account number or PIN was not accepted.",
+      "cannot_connect": "Cannot reach the Barna portal. Try again later.",
+      "otp_required": "Barna requires OTP for this page. This integration supports unattended no-OTP access only.",
+      "portal_changed": "The portal response could not be read. Check the integration release notes."
+    },
+    "abort": {
+      "already_configured": "This Barna account is already configured.",
+      "unique_id_mismatch": "Use the same account number. Add a separate integration for another account.",
+      "reauth_successful": "Your Barna credentials were updated.",
+      "reconfigure_successful": "Your Barna credentials were updated."
+    }
+  }
+}

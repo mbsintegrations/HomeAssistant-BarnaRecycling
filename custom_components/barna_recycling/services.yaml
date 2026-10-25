@@ -1,0 +1,13 @@
+get_lift_history:
+  name: Get lift history
+  description: Return all cached records from the portal's last-12-month window, without an additional portal request.
+  fields:
+    entity_id:
+      name: Barna entity
+      description: Select the Collection summary sensor for the required Barna account.
+      required: true
+      selector:
+        entity:
+          filter:
+            - domain: sensor
+              integration: barna_recycling

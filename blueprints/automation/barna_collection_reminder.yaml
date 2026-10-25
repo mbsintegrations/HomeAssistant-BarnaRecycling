@@ -1,0 +1,81 @@
+blueprint:
+  name: Barna Recycling — collection reminder
+  description: >-
+    Notify at your chosen local time before a published collection. Select the
+    Collection summary sensor and your notification actions. The variables
+    reminder_title and reminder_message are available in those actions. Uses
+    the published date, not a repeating fortnightly assumption. Saved schedules
+    can be allowed explicitly and are labelled. No notification is sent when
+    there is no published date. This blueprint does not change card colours;
+    set highlight_time in the Barna card separately. Home Assistant must be
+    running at the selected time; there is no catch-up notification.
+  domain: automation
+  author: MBS Integrations
+  source_url: https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling/blob/main/blueprints/automation/barna_collection_reminder.yaml
+  homeassistant:
+    min_version: 2026.10.0
+  input:
+    collection_sensor:
+      name: Collection summary sensor
+      selector:
+        entity:
+          filter:
+            - domain: sensor
+              integration: barna_recycling
+    reminder_time:
+      name: Notification time
+      default: '18:00:00'
+      selector:
+        time: {}
+    days_before:
+      name: Days before collection
+      default: 1
+      selector:
+        number:
+          min: 0
+          max: 7
+          step: 1
+          mode: slider
+    allow_cached:
+      name: Allow reminders from saved schedules
+      description: A saved-schedule warning is added if the latest refresh failed.
+      default: false
+      selector:
+        boolean: {}
+    notification_actions:
+      name: Notification actions
+      description: >-
+        Add your phone or other notification action. Use {{ reminder_title }}
+        for its title and {{ reminder_message }} for its message.
+      selector:
+        action: {}
+mode: single
+max_exceeded: silent
+variables:
+  collection_sensor: !input collection_sensor
+  days_before: !input days_before
+  allow_cached: !input allow_cached
+  collection: "{{ state_attr(collection_sensor, 'next_collection') }}"
+triggers:
+  - trigger: time
+    at: !input reminder_time
+conditions:
+  - condition: template
+    value_template: >-
+      {{ has_value(collection_sensor)
+         and state_attr(collection_sensor, 'barna_card') == true
+         and state_attr(collection_sensor, 'calendar_status') == 'ok'
+         and collection is mapping
+         and collection.get('date') == (now().date() + timedelta(days=days_before | int)).isoformat()
+         and (allow_cached or state_attr(collection_sensor, 'data_stale') == false) }}
+actions:
+  - variables:
+      reminder_title: 'Barna Recycling collection'
+      reminder_message: >-
+        {{ collection.get('streams', []) | map('title') | join(' / ') }}
+        collection {{ 'today' if days_before | int == 0 else 'tomorrow' if days_before | int == 1 else 'on ' ~ collection.get('date') }}.
+        Please leave your bins out the night before.
+        {% if state_attr(collection_sensor, 'data_stale') %}Saved schedule: latest refresh failed.{% endif %}
+        {{ (state_attr(collection_sensor, 'calendar_advisories') or []) | join(' ') }}
+  - choose: []
+    default: !input notification_actions

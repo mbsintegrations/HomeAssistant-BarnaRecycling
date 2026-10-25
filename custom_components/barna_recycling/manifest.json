@@ -1,0 +1,13 @@
+{
+  "domain": "barna_recycling",
+  "name": "Barna Recycling",
+  "after_dependencies": ["frontend", "http", "lovelace"],
+  "codeowners": ["@mbsintegrations"],
+  "config_flow": true,
+  "documentation": "https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling/issues",
+  "requirements": ["pdfplumber==0.11.9"],
+  "version": "0.1.0b1"
+}
