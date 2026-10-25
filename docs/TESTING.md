@@ -24,7 +24,7 @@ Tested on **Home Assistant 2026.10.1** with an isolated container and one real c
 - Temporary fixture sensor and automation removed after validation. No phone notification or household action was sent.
 - Resource registration and existing dashboard presets visually checked.
 
-The validation build was installed through HACS. All **28 installed files** matched a freshly downloaded release ZIP byte-for-byte. The ZIP's SHA-256 also matched its published checksum. After restarting HA Test, Barna loaded with fresh data, 26 published dates, 15 history records and one correctly versioned frontend resource. There were 28 registered entities, 21 enabled and seven disabled by default. No Barna-specific startup errors were found; HA emitted its standard custom-integration warning. The unrelated Calor entry remained disabled.
+The validation build was installed through HACS. All **28 installed files** matched a freshly downloaded release ZIP byte-for-byte. The ZIP's SHA-256 also matched its published checksum. After restarting Home Assistant, Barna loaded with fresh data, 26 published dates, 15 history records and one correctly versioned frontend resource. There were 28 registered entities, 21 enabled and seven disabled by default. No Barna-specific startup errors were found; HA emitted its standard custom-integration warning.
 
 The validated runtime commit passed [all four official CI jobs](https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling/actions/runs/40157585823), including HACS and Hassfest without ignores. The [catalogue submission](https://github.com/hacs/default/pull/12619) is separate from maintainer acceptance.
 
@@ -40,4 +40,4 @@ Reproduce local tests with the commands in [Contributing](../CONTRIBUTING.md).
 
 ## Version promotion
 
-Release **0.1.0** uses the same validated runtime, with only the manifest version, shared version constant and derived frontend cache URL changed. Python/Node regression checks and official CI are rerun for this release. HA Test remains stopped; the final metadata-only promotion was not reinstalled in the container.
+Release **0.1.0** uses the same validated runtime, with only the manifest version, shared version constant and derived frontend cache URL changed. Python/Node regression checks and official CI are rerun for this release. The final metadata-only promotion was not separately reinstalled in Home Assistant.

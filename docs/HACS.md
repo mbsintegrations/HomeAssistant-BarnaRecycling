@@ -18,4 +18,4 @@ The validation build was installed through HACS on HA Test 2026.10.1. All 28 ins
 
 Official HACS validation and Hassfest run without ignores. Submission follows [HACS inclusion requirements](https://hacs.xyz/docs/publish/include/) after successful checks and a full GitHub release. Local icons follow [integration requirements](https://hacs.xyz/docs/publish/integration/). See the linked submission for current review status; do not open duplicates.
 
-Release **0.1.0** keeps that validated runtime unchanged apart from the version fields and frontend cache URL. It is a normal release and does not require enabling prereleases. HA Test remained stopped for this metadata-only release promotion.
+Release **0.1.0** keeps that validated runtime unchanged apart from the version fields and frontend cache URL. It is a normal release and does not require enabling prereleases.

@@ -62,7 +62,6 @@ Edit a dashboard, select **Add card**, and search **Barna Recycling**. Choose th
 - [Troubleshooting, updates and removal](docs/TROUBLESHOOTING.md)
 - [Testing and limitations](docs/TESTING.md)
 - [HACS](docs/HACS.md) · [Security](SECURITY.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
-- [Community graphic and announcement draft](docs/ARTWORK.md)
 
 ## Coverage
 
