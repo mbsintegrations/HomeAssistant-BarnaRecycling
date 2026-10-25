@@ -6,6 +6,9 @@
 [![Release](https://img.shields.io/github/v/release/mbsintegrations/HomeAssistant-BarnaRecycling?include_prereleases)](https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling/releases)
 [![Licence](https://img.shields.io/github/license/mbsintegrations/HomeAssistant-BarnaRecycling)](LICENSE)
 
+[![MBS Integrations](https://img.shields.io/badge/Website-mbsintegrations.ie-0078D4?style=flat)](https://mbsintegrations.ie)
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=flat&logo=paypal&logoColor=white)](https://paypal.me/mwahl1973)
+
 Bring your Barna collection calendar, recorded bin weights and account balance into Home Assistant. Includes four ready-made cards, calendar and lift-history popups, and a collection reminder blueprint.
 
 ## Features
