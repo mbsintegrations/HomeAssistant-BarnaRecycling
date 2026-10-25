@@ -24,7 +24,9 @@ Tested on **Home Assistant 2026.10.1** with an isolated container and one real c
 - Temporary fixture sensor and automation removed after validation. No phone notification or household action was sent.
 - Resource registration and existing dashboard presets visually checked.
 
-HACS release installation and final restart checks are recorded in the release validation note once completed.
+The published **v0.1.0b1** was installed through HACS with prereleases enabled for Barna. All **28 installed files** matched a freshly downloaded release ZIP byte-for-byte. The ZIP's SHA-256 also matched its published checksum. After restarting HA Test, Barna loaded with fresh data, 26 published dates, 15 history records and one correctly versioned frontend resource. There were 28 registered entities, 21 enabled and seven disabled by default. No Barna-specific startup errors were found; HA emitted its standard custom-integration warning. The unrelated Calor entry remained disabled.
+
+The final release commit passed [all four official CI jobs](https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling/actions/runs/40157585823), including HACS and Hassfest without ignores. The [catalogue submission](https://github.com/hacs/default/pull/12619) is separate from maintainer acceptance.
 
 ## Visual checks
 
