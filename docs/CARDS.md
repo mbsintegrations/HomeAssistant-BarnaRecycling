@@ -54,7 +54,7 @@ If the picker does not show the cards after refreshing, register this module onc
 
 ```yaml
 resources:
-  - url: /barna_recycling/frontend/barna-recycling-card.js?v=0.1.0b1-release1
+  - url: /barna_recycling/frontend/barna-recycling-card.js?v=0.1.0-release1
     type: module
 ```
 

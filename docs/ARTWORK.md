@@ -10,4 +10,4 @@ Header/community graphics were generated with OpenAI image generation, then revi
 
 Suggested community post — draft, not automatically posted:
 
-> Barna Recycling is now available for Home Assistant. See published collection dates, recorded bin weights and your account balance, with four ready-made cards for light and dark themes. Calendar and lift history open inside HA, and the included blueprint reminds you at your chosen time. The first beta supports the combined three-bin calendar format with ordinary account number/PIN login. Installation and coverage notes: https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling
+> Barna Recycling is now available for Home Assistant. See published collection dates, recorded bin weights and your account balance, with four ready-made cards for light and dark themes. Calendar and lift history open inside HA, and the included blueprint reminds you at your chosen time. The first release supports the combined three-bin calendar format with ordinary account number/PIN login. Installation and coverage notes: https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling

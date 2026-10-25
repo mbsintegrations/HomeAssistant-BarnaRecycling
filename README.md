@@ -3,7 +3,7 @@
 ![Barna Recycling for Home Assistant](docs/images/github-header.png)
 
 [![Validate](https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling/actions/workflows/validate.yml/badge.svg)](https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling/actions/workflows/validate.yml)
-[![Release](https://img.shields.io/github/v/release/mbsintegrations/HomeAssistant-BarnaRecycling?include_prereleases)](https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling/releases)
+[![Release](https://img.shields.io/github/v/release/mbsintegrations/HomeAssistant-BarnaRecycling)](https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling/releases)
 [![Licence](https://img.shields.io/github/license/mbsintegrations/HomeAssistant-BarnaRecycling)](LICENSE)
 
 [![MBS Integrations](https://img.shields.io/badge/Website-mbsintegrations.ie-0078D4?style=flat)](https://mbsintegrations.ie)
@@ -42,7 +42,7 @@ Requires **Home Assistant 2026.10.0 or newer**, a working Barna account and ordi
 
 [![Open Barna in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=mbsintegrations&repository=HomeAssistant-BarnaRecycling&category=integration)
 
-Until default-catalogue acceptance, add `https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling` under **HACS → ⋮ → Custom repositories**, category **Integration**. Download Barna Recycling and restart HA. Enable prerelease versions for the beta if necessary. [HACS details](docs/HACS.md).
+Until default-catalogue acceptance, add `https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling` under **HACS → ⋮ → Custom repositories**, category **Integration**. Download Barna Recycling and restart HA. [HACS details](docs/HACS.md).
 
 ### Manual
 
@@ -66,7 +66,7 @@ Edit a dashboard, select **Add card**, and search **Barna Recycling**. Choose th
 
 ## Coverage
 
-The first beta has been validated with **one real customer account and the combined three-bin vector PDF calendar format**. Other layouts need sanitized examples and parser support. Unsupported calendars are reported explicitly; the integration does not invent dates or guess ambiguous bin colours.
+The first release has been validated with **one real customer account and the combined three-bin vector PDF calendar format**. Other layouts need sanitized examples and parser support. Unsupported calendars are reported explicitly; the integration does not invent dates or guess ambiguous bin colours.
 
 The requested last-12-month history may have a different source start date. Entities and popups display that coverage; recorded totals are **not lifetime totals**. Collections stop at the last published date until another calendar is available. Check source holiday changes before relying on a reminder.
 
