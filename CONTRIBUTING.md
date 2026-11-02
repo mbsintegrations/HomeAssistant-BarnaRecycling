@@ -11,6 +11,8 @@ python scripts/build_release.py
 
 Python tests use synthetic portal/PDF fixtures and small HA interface substitutes for unit-level lifecycle checks. Native HA testing is separate. Frontend logic uses Node's built-in test runner.
 
+Portal HTML must be parsed only through the client's executor. Keep challenge validation and data extraction in the same worker job, reusing its DOM. Regression tests check thread identity, parse counts, bounded session retry, event-loop progress while parsing a large fixture, and the setup/coordinator executor wiring.
+
 For visual review, serve the repository with `python -m http.server 8766 --bind 127.0.0.1`, then visit `http://127.0.0.1:8766/preview/`. This uses the actual card module with synthetic HA state/history. Parameters: `?theme=dark`, `?mobile=1`, `?focus=buttons` (also standard, links, compact, balance, reminder). Check both popup tabs, keyboard operation and phone widths in both themes.
 
 Never commit customer data, credentials, cookies, account/route IDs, raw portal documents or live screenshots. Build fixtures from scratch. New PDF layouts require date/stream proof; reject ambiguous schedules.

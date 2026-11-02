@@ -1,17 +1,22 @@
 # Validation and limitations
 
-Release: **0.1.0**, checked 25 October 2026.
+Release: **0.1.1**, checked 2 November 2026.
 
 ## Automated regression checks
 
-- **37 Python tests:** synthetic account/history parsing, debit/credit, malformed/duplicate rows, authentication and OTP handling, expired-session relogin, redirect origin/body protection, bounded downloads and corrupt/unsupported PDFs.
+- **46 Python tests:** synthetic account/history parsing, debit/credit, malformed/duplicate rows, authentication and OTP handling, expired-session relogin, redirect origin/body protection, bounded downloads and corrupt/unsupported PDFs.
+- Parser regression tests assert one DOM per HTML response, worker-thread execution for DOM creation/validation/extraction, and event-loop progress while a worker handles a near-2 MB page with 2,000 lift records. Both the default executor and the injected executor path are covered. The actual setup and coordinator entry points also run against synthetic HTTP responses using a worker executor.
 - Synthetic full-year vector PDFs cover leap years, year boundaries, legend ambiguity and multiple colours.
 - Runtime tests execute the actual integration methods with small HA interface adapters: private cache identity/schema, network/auth/OTP failures, recovery, disk-save failure, six-hour interval, midnight updates, entity defaults, diagnostics allowlist, setup/unload/removal and history service routing.
 - Config-flow tests cover masking, trimming, invalid inputs, duplicate accounts, same-account reauthentication/reconfiguration and safe error categories.
 - **11 Node tests:** HA time zone, DST, highlighting boundaries, invalid/missing dates, unavailable states, HTML escaping, preset selection, history response/fallback, calendar popup content and history invalidation.
 - These unit tests do not replace native Home Assistant lifecycle testing. CI also runs official Hassfest and HACS validation without ignores.
 
-## Native Home Assistant Test
+## 0.1.1 native validation
+
+Validated on Home Assistant **2026.10.1** with one real account: startup login and refresh, native setup validation ending in the expected duplicate-account abort, 26 calendar events, 18 cached lift records, fresh-data state, and a single frontend resource carrying version 0.1.1. No Barna-specific error or warning was found apart from HA's standard custom-integration warning. This verifies the provider flow; thread placement and large-response behaviour are proved separately by the regression tests.
+
+## Original release native validation
 
 Tested on **Home Assistant 2026.10.1** with an isolated container and one real customer account:
 

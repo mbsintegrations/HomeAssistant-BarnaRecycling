@@ -6,7 +6,7 @@ The private last-good snapshot contains account/history data. Its schema/account
 
 Account information is exposed through HA entities/service responses. Summary attributes include balance and recent history even when the card hides them. Do not publish live entity snapshots or public dashboards containing this data.
 
-HTTPS requests have bounded payloads/timeouts, an in-memory cookie jar and same-origin redirects. Only the known legacy calendar path is upgraded from HTTP before requesting it. PDF parsing runs in an executor; ambiguous formats do not create dates.
+HTTPS requests have bounded payloads/timeouts, an in-memory cookie jar and same-origin redirects. Only the known legacy calendar path is upgraded from HTTP before requesting it. HTML parsing, login/OTP validation and data extraction run together in an executor, using one DOM per response. PDF parsing also runs in an executor; ambiguous formats do not create dates.
 
 No analytics, telemetry, frontend CDN or paid API is used. No payment/profile/OTP-request/support-message operation is implemented. Errors use stable categories and diagnostics use an allowlist.
 
