@@ -2,15 +2,17 @@
 
 These are unit tests, not a substitute for loading the integration in HA.
 """
+import asyncio
 import copy
 from datetime import date, datetime, time, timedelta, timezone
 from hashlib import sha256
 import importlib
 from pathlib import Path
 import sys
+import threading
 import types
 import unittest
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, patch
 from zoneinfo import ZoneInfo
 import common
 
@@ -252,3 +254,43 @@ class FlowTests(unittest.IsolatedAsyncioTestCase):
             result=await self.f.async_step_user(self.login)
             self.assertEqual(result["errors"]["base"],category)
             self.assertNotIn("private",str(result));self.assertTrue(self.detached)
+
+
+class ExecutorWiringTests(unittest.IsolatedAsyncioTestCase):
+    """Run the actual portal through both HA entry points with synthetic HTTP."""
+
+    async def test_setup_and_refresh_use_home_assistant_executor(self):
+        from test_portal import Response, Session
+        portal = importlib.import_module('barna_runtime.portal')
+        for entry_point in ('config_flow', 'coordinator'):
+            with self.subTest(entry_point=entry_point):
+                session = Session([Response(common.account_html()), Response(common.account_html()),
+                    Response(common.lift_html()), Response('<h1>Calendar</h1>')])
+                session.detach = lambda: None
+                hass = types.SimpleNamespace(storage={}, fail_save=False,
+                    async_add_executor_job=AsyncMock(side_effect=asyncio.to_thread))
+                loop_thread = threading.get_ident()
+                original = portal.Document
+
+                def document(html):
+                    self.assertNotEqual(threading.get_ident(), loop_thread)
+                    return original(html)
+
+                with patch.object(portal, 'Document', side_effect=document) as parsed:
+                    if entry_point == 'config_flow':
+                        flow = runtime.config_flow.BarnaConfigFlow()
+                        flow.hass = hass
+                        with patch.object(runtime.config_flow, 'async_create_clientsession', return_value=session), \
+                             patch.object(runtime.config_flow, 'BarnaPortal', portal.BarnaPortal):
+                            result = await flow.async_step_user({'username': 'DEMO', 'password': 'synthetic-test-pin'})
+                        self.assertEqual(result['type'], 'create_entry')
+                    else:
+                        entry = types.SimpleNamespace(entry_id='demo-entry', unique_id=sha256(b'DEMO').hexdigest(),
+                            data={'username': 'DEMO', 'password': 'synthetic-test-pin'}, async_on_unload=lambda f: None)
+                        with patch.object(runtime.coordinator, 'async_create_clientsession', return_value=session):
+                            coordinator = runtime.coordinator.BarnaCoordinator(hass, entry)
+                        result = await coordinator._async_update_data()
+                        self.assertEqual(result['balance'], 42.5)
+                        self.assertFalse(coordinator.stale)
+                self.assertEqual(parsed.call_count, 4)
+                self.assertEqual(hass.async_add_executor_job.await_count, 4)

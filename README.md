@@ -11,6 +11,8 @@
 
 Bring your Barna collection calendar, recorded bin weights and account balance into Home Assistant. Includes four ready-made cards, calendar and lift-history popups, and a collection reminder blueprint.
 
+**0.1.1 fixes portal parsing blocking Home Assistant's event loop.** Update through HACS and restart Home Assistant; your existing account, entities and cards are retained. [Release notes](CHANGELOG.md).
+
 ## Features
 
 - **Published dates:** combined and separate waste, recycling and compost calendars. No guessed fortnightly schedule.

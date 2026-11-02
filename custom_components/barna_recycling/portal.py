@@ -70,17 +70,26 @@ class Document(HTMLParser):
             self.current.children.append(data)
 
 
-def is_login(html):
-    return bool(Document(html).root.find("input", name="Password"))
-
-
 def checked_document(html):
+    """Build and validate one DOM; call only from the parsing executor."""
     doc = Document(html).root
-    if "App Authentication" in doc.text or "one-time passcode" in doc.text.lower():
+    text = doc.text
+    if "App Authentication" in text or "one-time passcode" in text.lower():
         raise OTPRequired("This page requires OTP; interactive access is not supported")
-    if is_login(html):
+    if doc.find("input", name="Password"):
         raise AuthenticationError("Re-enter the account number and PIN")
     return doc
+
+
+def parse_page(html, parser):
+    """Check challenges and extract page data in one synchronous worker job."""
+    return parser(checked_document(html))
+
+
+def parse_login(doc):
+    """Validate the login response without retaining its DOM or account data."""
+    if not any("id=99" in a.attrs.get("href", "") for a in doc.find("a")):
+        raise AuthenticationError("Re-enter the account number and PIN")
 
 
 def parse_date(value):
@@ -105,8 +114,7 @@ def number(value):
         raise PortalError("Invalid numeric value") from err
 
 
-def parse_account(html):
-    doc = checked_document(html)
+def parse_account(doc):
     headings = [n.text for n in doc.find("h3") if "Current balance:" in n.text]
     if len(headings) != 1:
         raise PortalError("Account balance was not found")
@@ -126,8 +134,7 @@ def parse_account(html):
             "balance_status": status, "balance_label": match[2].strip(), "alerts": alerts}
 
 
-def parse_lifts(html):
-    doc = checked_document(html)
+def parse_lifts(doc):
     tables = doc.find("table", id="datatable")
     if len(tables) != 1:
         raise PortalError("Lift history table was not found")
@@ -177,8 +184,7 @@ def safe_url(value, *, pdf=False):
     return url
 
 
-def parse_calendar_links(html):
-    doc = checked_document(html)
+def parse_calendar_links(doc):
     links = []
     for a in doc.find("a"):
         href = a.attrs.get("href", "")
@@ -229,32 +235,37 @@ class BarnaPortal:
         raise PortalError("Too many portal redirects")
 
     async def login(self):
+        self.authenticated = False
         self.session.cookie_jar.clear()
         html = await self._request("auth_user.php", {"Username": self.account, "Password": self.pin})
-        doc = checked_document(html)
-        if not any("id=99" in a.attrs.get("href", "") for a in doc.find("a")):
-            raise AuthenticationError("Re-enter the account number and PIN")
+        await self.executor(parse_page, html, parse_login)
         self.authenticated = True
 
-    async def page(self, path):
+    async def page(self, path, parser):
         html = await self._request(path)
-        if is_login(html):
+        try:
+            return await self.executor(parse_page, html, parser)
+        except AuthenticationError:
+            # Retry an expired session once. OTP and layout failures never retry.
             self.authenticated = False
             await self.login()
             html = await self._request(path)
-        checked_document(html)
-        return html
+            try:
+                return await self.executor(parse_page, html, parser)
+            except AuthenticationError:
+                self.authenticated = False
+                raise
 
     async def fetch(self):
         async with self.lock:
             if not self.authenticated:
                 await self.login()
-            data = parse_account(await self.page("index.php"))
-            data.update(parse_lifts(await self.page("index.php?id=4&liftperiod=last12month")))
+            data = await self.page("index.php", parse_account)
+            data.update(await self.page("index.php?id=4&liftperiod=last12month", parse_lifts))
             data.update({"collections": [], "calendar_advisories": [], "calendar_status": "missing",
                          "calendar_years": [], "calendar_sources": []})
             try:
-                links = parse_calendar_links(await self.page("index.php?id=6"))
+                links = await self.page("index.php?id=6", parse_calendar_links)
                 if len(links) > 4:
                     raise PortalError("Too many calendar files")
                 parsed = []

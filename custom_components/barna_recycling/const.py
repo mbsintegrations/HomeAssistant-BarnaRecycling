@@ -1,6 +1,6 @@
 """Constants for the Barna Recycling integration."""
 DOMAIN = "barna_recycling"
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 BASE_URL = "https://cportal.barnarecycling.com/"
 UPDATE_HOURS = 6
 STREAMS = ("waste", "recycling", "compost")
