@@ -1,5 +1,9 @@
 # Changelog
 
+## Documentation — 2026-11-03
+
+Accepted into the default HACS catalogue. Installation now starts with searching for Barna Recycling in HACS. Retains a custom-repository fallback and expands manual installation and update instructions, including ZIP checksums and directory layout. Existing installations do not need to be reconfigured. Runtime code, release files and version 0.1.1 are unchanged.
+
 ## 0.1.1 — 2026-11-02
 
 Fix portal HTML parsing blocking Home Assistant's event loop during setup, reauthentication and six-hour refreshes. Each HTML response is now parsed once in the executor, including login detection, OTP checks and account/history/calendar-link extraction.
