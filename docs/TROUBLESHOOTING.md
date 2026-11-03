@@ -20,7 +20,13 @@ Refresh the browser and check the single [module resource](CARDS.md). YAML resou
 
 ## Updating
 
-Back up HA; update through HACS; restart HA; refresh dashboard browsers. Check sync freshness and calendar status. Keep the previous release ZIP for rollback. Do not downgrade across future storage migrations without a backup.
+**HACS:** back up Home Assistant, download the update in HACS and restart Home Assistant.
+
+**Manual:** back up first, replace the entire `custom_components/barna_recycling` directory with the directory from the new release ZIP, and restart Home Assistant. Keep the complete `brand` and `frontend` folders. Leave Home Assistant's `.storage` directory alone; the same account retains its configuration, entities and saved data.
+
+For either method, refresh dashboard browsers and check sync freshness and calendar status. Update a manually configured [card resource](CARDS.md) when its version changes. Keep the previous release ZIP for rollback. Do not downgrade across future storage migrations without a backup.
+
+Default HACS catalogue inclusion does not require existing users to reinstall or re-enter their credentials.
 
 ## Removal
 
