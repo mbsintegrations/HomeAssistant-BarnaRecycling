@@ -7,6 +7,10 @@
 [![Release](https://img.shields.io/github/v/release/mbsintegrations/HomeAssistant-BarnaRecycling)](https://github.com/mbsintegrations/HomeAssistant-BarnaRecycling/releases)
 [![Licence](https://img.shields.io/github/license/mbsintegrations/HomeAssistant-BarnaRecycling)](LICENSE)
 
+[![Open HACS repository on Home Assistant](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=mbsintegrations&repository=HomeAssistant-BarnaRecycling&category=integration)
+[![Manual installation](https://img.shields.io/badge/Manual-installation-0078D4?style=for-the-badge&logo=homeassistant&logoColor=white)](#manual-installation)
+[![Add integration to Home Assistant](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=barna_recycling)
+
 [![MBS Integrations](https://img.shields.io/badge/Website-mbsintegrations.ie-0078D4?style=flat)](https://mbsintegrations.ie)
 [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=flat&logo=paypal&logoColor=white)](https://paypal.me/mwahl1973)
 
@@ -91,6 +95,8 @@ Existing HACS installations continue receiving normal updates. Catalogue inclusi
 Alternatively, download the source for the chosen release and copy **only** `custom_components/barna_recycling` to that location. Keep the complete directory, including `brand` and `frontend`; the cards are bundled with the integration. Import the [notification blueprint](docs/REMINDERS.md) separately for either installation method.
 
 ### Connect and add cards
+
+After installing the files through HACS or manually and restarting Home Assistant, the **Add integration to Home Assistant** button above opens the account setup dialog.
 
 Go to **Settings → Devices & services → Add integration → Barna Recycling**. Enter your account number and PIN in the masked setup form. Do not put credentials in YAML. The integration validates unattended login and creates a Barna Recycling device.
 
